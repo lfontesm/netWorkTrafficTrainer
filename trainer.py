@@ -1,8 +1,11 @@
 #!/usr/bin/python3
 
 import numpy as np
+from sklearn import tree
+from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import train_test_split
 from sklearn.naive_bayes import GaussianNB
+from sklearn.metrics import accuracy_score
 
 def traffic_to_f(string):
     if string == 'BENIGN':
@@ -61,8 +64,8 @@ def cria_matrizTrafego(file):
     arrayTipoTrafego.append(tipoTrafego)
     
     i = 0
-    maxIt = 1000000
-    while True:
+    maxIt = 1000000   # Ajuste esse numero para mudar o numero de linhas lido no arquivo de entrada
+    while True:       # 1.000.000 deve ser o suficiente para ler qualquer arquivo.
         arrayTrafego, tipoTrafego, err = selec_prox_a(file)
         if err == 1 or i >= maxIt:
             break
@@ -71,7 +74,30 @@ def cria_matrizTrafego(file):
         i = i+1
 
     return matrizTrafego, arrayTipoTrafego
+
+def bayes_method(x_train, x_test, y_train, y_test):
+    # x_train, x_test, y_train, y_test = train_test_split(matrizTrafego, arrayTipoTrafego, test_size=0.2, random_state=0)
+    gnb = GaussianNB()
+    y_pred = gnb.fit(x_train, y_train).predict(x_test)
+
+    print("Total de fluxos analisados: %d Erros: %d"% (x_test.shape[0], (y_test != y_pred).sum()))
+
+def tree_method(x_train, x_test, y_train, y_test):
+    # x_train, x_test, y_train, y_test = train_test_split(matrizTrafego, arrayTipoTrafego, test_size=0.2, random_state=0)
+    clf = tree.DecisionTreeClassifier()
+    y_pred = clf.fit(x_train, y_train).predict(x_test)
+
+    print("Acertamos um total de:")
+    accuracy_score(y_test, y_pred)
+
+def forest_method(x_train, x_test, y_train, y_test):
+    # x_train, x_test, y_train, y_test = train_test_split(matrizTrafego, arrayTipoTrafego, test_size=0.2, random_state=0)
+    clf = RandomForestClassifier()
+    y_pred = clf.fit(x_train, y_train).predict(x_test)
     
+    print("Acertamos um total de:")
+    accuracy_score(y_test, y_pred)
+
 
 # Pega o caminho do arquivo que vamos abrir
 # ex: TrafficLabelling/Friday-WorkingHours-Afternoon-DDos.pcap_ISCX.csv
@@ -88,9 +114,21 @@ linha = f.readline().split(',')
 
 matrizTrafego, arrayTipoTrafego = cria_matrizTrafego(f)
 
-x_train, x_test, y_train, y_test = train_test_split(matrizTrafego, arrayTipoTrafego, test_size=0.3, random_state=0)
-gnb = GaussianNB()
+# Separa entre os vetores de treinamento e de teste
+x_train, x_test, y_train, y_test = train_test_split(matrizTrafego, arrayTipoTrafego, test_size=0.2, random_state=0)
 
-y_pred = gnb.fit(x_train, y_train).predict(x_test)
+bayes_method(x_train, x_test, y_train, y_test)
+# bayes_method(matrizTrafego, arrayTipoTrafego)
+tree_method(x_train, x_test, y_train, y_test)
+forest_method(x_train, x_test, y_train, y_test)
 
-print("Total de fluxos analisados: %d Erros: %d"% (x_test.shape[0], (y_test != y_pred).sum()))
+# a = np.array([1, 2, 3, 4, 5, 6, 7, 8, 9])
+# b = np.array([1, 2, 3, 5, 5, 6, 7, 8, 9])
+# print((a != b).sum())
+
+# x_train, x_test, y_train, y_test = train_test_split(matrizTrafego, arrayTipoTrafego, test_size=0.3, random_state=0)
+# gnb = GaussianNB()
+
+# y_pred = gnb.fit(x_train, y_train).predict(x_test)
+
+# print("Total de fluxos analisados: %d Erros: %d"% (x_test.shape[0], (y_test != y_pred).sum()))
