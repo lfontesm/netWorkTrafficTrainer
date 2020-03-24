@@ -45,38 +45,14 @@ print(path)
 df = pd.read_csv(path.replace("\n",""))
 # print(flowMat)
 
-# for i, flow in enumerate(flowMat):
-#     if i < 10:
-#         print(df.loc[[159220]])
-#     else:
-#         break
-# for i in range(10):
-#     print((df.loc[[i]]))
-
 df = df.drop(columns=['Flow ID', ' Source IP', ' Destination IP', ' Timestamp'], axis=1)
 labels = np.array(df.iloc[:,-1])
 df = df.drop(' Label', axis=1)
 df = df.replace([np.inf, -np.inf], np.nan).dropna(axis=1)
 
-traffic = np.array(df)
-
-# print(traffic)
-
-# for i in traffic:
-#     print(i)
+traffic = np.array(df).astype(np.float)
 
 x_train, x_test, y_train, y_test = train_test_split(traffic, labels, test_size=0.2, random_state=0)
 forest_method(x_train, x_test, y_train, y_test)
 bayes_method(x_train, x_test, y_train, y_test)
 tree_method(x_train, x_test, y_train, y_test)
-
-# print(np.array(labels))
-# for i in labels:
-#     if i != 'BENIGN':
-#         print(i)
-
-    
-# cereal_df2 = pd.read_csv("data/cereal.csv")
-
-# Lista contendo as informacoes sobre as colunas
-# linha = f.readline().split(',')
