@@ -14,7 +14,9 @@ def bayes_method(x_train, x_test, y_train, y_test):
     gnb = GaussianNB()
     y_pred = gnb.fit(x_train, y_train).predict(x_test)
 
-    print("Total de fluxos analisados: %d Erros: %d"% (x_test.shape[0], (y_test != y_pred).sum()))
+    # print("Total de fluxos analisados: %d Erros: %d"% (x_test.shape[0], (y_test != y_pred).sum()))
+    print("Acertamos um total de: (bayes)", accuracy_score(y_test, y_pred))
+
 
 def tree_method(x_train, x_test, y_train, y_test):
     # x_train, x_test, y_train, y_test = train_test_split(matrizTrafego, arrayTipoTrafego, test_size=0.2, random_state=0)
