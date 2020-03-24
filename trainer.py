@@ -25,9 +25,7 @@ def _selec_prox_a(file):
     linha = linha.split(',')
     linha = [i.strip() for i in linha]
     
-    tipoTrafego = linha.pop(-1)
-    # print(tipoTrafego)
-    # tipoTrafego = traffic_to_f(tipoTrafego)            # Remove a classificacao do trafego
+    tipoTrafego = linha.pop(-1)                        # Remove a classificacao do trafego
     
     linha = np.array(linha)
 
@@ -59,7 +57,7 @@ def cria_matrizTrafego(file):
     arrayTipoTrafego.append(tipoTrafego)
     
     i = 0
-    maxIt = 10000   # Ajuste esse numero para mudar o numero de linhas lido no arquivo de entrada
+    maxIt = 1000000   # Ajuste esse numero para mudar o numero de linhas lido no arquivo de entrada
     while True:       # 1.000.000 deve ser o suficiente para ler qualquer arquivo.
         arrayTrafego, tipoTrafego, err = selec_prox_a(file)
         if err == 1 or i >= maxIt:
@@ -107,14 +105,17 @@ f = open(path.replace("\n",""))
 linha = f.readline().split(',')
 
 matrizTrafego, arrayTipoTrafego = cria_matrizTrafego(f)
+# for i in matrizTrafego:
+#     print(i,"\n\n\n")
+print(arrayTipoTrafego)
 
 # Separa entre os vetores de treinamento e de teste
 x_train, x_test, y_train, y_test = train_test_split(matrizTrafego, arrayTipoTrafego, test_size=0.2, random_state=0)
 
 # bayes_method(matrizTrafego, arrayTipoTrafego)
-forest_method(x_train, x_test, y_train, y_test)
-tree_method(x_train, x_test, y_train, y_test)
-bayes_method(x_train, x_test, y_train, y_test)
+# forest_method(x_train, x_test, y_train, y_test)
+# tree_method(x_train, x_test, y_train, y_test)
+# bayes_method(x_train, x_test, y_train, y_test)
 
 # a = np.array([1, 2, 3, 4, 5, 6, 7, 8, 9])
 # b = np.array([1, 2, 3, 5, 5, 6, 7, 8, 9])
