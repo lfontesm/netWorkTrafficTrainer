@@ -7,12 +7,6 @@ from sklearn.model_selection import train_test_split
 from sklearn.naive_bayes import GaussianNB
 from sklearn.metrics import accuracy_score
 
-def traffic_to_f(string):
-    if string == 'BENIGN':
-        return 1.0
-    else:
-        return 0.0
-
 # valor default quando chega no final do arquivo
 def default():
     trafego = np.array(["0"]).astype(np.float)
@@ -32,7 +26,8 @@ def _selec_prox_a(file):
     linha = [i.strip() for i in linha]
     
     tipoTrafego = linha.pop(-1)
-    tipoTrafego = traffic_to_f(tipoTrafego)            # Remove a classificacao do trafego e transforma ele em um numero que possa ser treinado
+    # print(tipoTrafego)
+    # tipoTrafego = traffic_to_f(tipoTrafego)            # Remove a classificacao do trafego
     
     linha = np.array(linha)
 
@@ -64,7 +59,7 @@ def cria_matrizTrafego(file):
     arrayTipoTrafego.append(tipoTrafego)
     
     i = 0
-    maxIt = 1000000   # Ajuste esse numero para mudar o numero de linhas lido no arquivo de entrada
+    maxIt = 10000   # Ajuste esse numero para mudar o numero de linhas lido no arquivo de entrada
     while True:       # 1.000.000 deve ser o suficiente para ler qualquer arquivo.
         arrayTrafego, tipoTrafego, err = selec_prox_a(file)
         if err == 1 or i >= maxIt:
@@ -116,10 +111,10 @@ matrizTrafego, arrayTipoTrafego = cria_matrizTrafego(f)
 # Separa entre os vetores de treinamento e de teste
 x_train, x_test, y_train, y_test = train_test_split(matrizTrafego, arrayTipoTrafego, test_size=0.2, random_state=0)
 
-# bayes_method(x_train, x_test, y_train, y_test)
 # bayes_method(matrizTrafego, arrayTipoTrafego)
+forest_method(x_train, x_test, y_train, y_test)
 tree_method(x_train, x_test, y_train, y_test)
-# forest_method(x_train, x_test, y_train, y_test)
+bayes_method(x_train, x_test, y_train, y_test)
 
 # a = np.array([1, 2, 3, 4, 5, 6, 7, 8, 9])
 # b = np.array([1, 2, 3, 5, 5, 6, 7, 8, 9])
