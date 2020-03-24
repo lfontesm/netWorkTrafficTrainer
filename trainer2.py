@@ -48,9 +48,10 @@ df = pd.read_csv(path.replace("\n",""))
 df = df.drop(columns=['Flow ID', ' Source IP', ' Destination IP', ' Timestamp'], axis=1)
 labels = np.array(df.iloc[:,-1])
 df = df.drop(' Label', axis=1)
+df = df.astype(np.float)
 df = df.replace([np.inf, -np.inf], np.nan).dropna(axis=1)
 
-traffic = np.array(df).astype(np.float)
+traffic = np.array(df)
 
 x_train, x_test, y_train, y_test = train_test_split(traffic, labels, test_size=0.2, random_state=0)
 forest_method(x_train, x_test, y_train, y_test)
