@@ -21,14 +21,14 @@ def tree_method(x_train, x_test, y_train, y_test):
     clf = tree.DecisionTreeClassifier()
     y_pred = clf.fit(x_train, y_train).predict(x_test)
 
-    print("Acertamos um total de: ", accuracy_score(y_test, y_pred))
+    print("Acertamos um total de: (tree)", accuracy_score(y_test, y_pred))
 
 def forest_method(x_train, x_test, y_train, y_test):
     # x_train, x_test, y_train, y_test = train_test_split(matrizTrafego, arrayTipoTrafego, test_size=0.2, random_state=0)
     clf = RandomForestClassifier()
     y_pred = clf.fit(x_train, y_train).predict(x_test)
     
-    print("Acertamos um total de: ", accuracy_score(y_test, y_pred))
+    print("Acertamos um total de: (forest)", accuracy_score(y_test, y_pred))
 
 # Pega o caminho do arquivo que vamos abrir
 # ex: TrafficLabelling/Friday-WorkingHours-Afternoon-DDos.pcap_ISCX.csv
