@@ -87,16 +87,15 @@ def tree_method(x_train, x_test, y_train, y_test):
     clf = tree.DecisionTreeClassifier()
     y_pred = clf.fit(x_train, y_train).predict(x_test)
 
-    print("Acertamos um total de:")
-    accuracy_score(y_test, y_pred)
+    print("Acertamos um total de: ", accuracy_score(y_test, y_pred))
 
 def forest_method(x_train, x_test, y_train, y_test):
     # x_train, x_test, y_train, y_test = train_test_split(matrizTrafego, arrayTipoTrafego, test_size=0.2, random_state=0)
     clf = RandomForestClassifier()
     y_pred = clf.fit(x_train, y_train).predict(x_test)
     
-    print("Acertamos um total de:")
-    accuracy_score(y_test, y_pred)
+    print("Acertamos um total de: ", accuracy_score(y_test, y_pred))
+    
 
 
 # Pega o caminho do arquivo que vamos abrir
@@ -117,10 +116,10 @@ matrizTrafego, arrayTipoTrafego = cria_matrizTrafego(f)
 # Separa entre os vetores de treinamento e de teste
 x_train, x_test, y_train, y_test = train_test_split(matrizTrafego, arrayTipoTrafego, test_size=0.2, random_state=0)
 
-bayes_method(x_train, x_test, y_train, y_test)
+# bayes_method(x_train, x_test, y_train, y_test)
 # bayes_method(matrizTrafego, arrayTipoTrafego)
 tree_method(x_train, x_test, y_train, y_test)
-forest_method(x_train, x_test, y_train, y_test)
+# forest_method(x_train, x_test, y_train, y_test)
 
 # a = np.array([1, 2, 3, 4, 5, 6, 7, 8, 9])
 # b = np.array([1, 2, 3, 5, 5, 6, 7, 8, 9])
